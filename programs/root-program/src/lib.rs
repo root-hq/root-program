@@ -1,13 +1,23 @@
 use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+pub mod instructions;
+
+
+declare_id!("9TgBv6Pqaf7nUjzh3aQMN366EPiiNfft4x9xdC2F6CLe");
 
 #[program]
 pub mod root_program {
     use super::*;
+    pub use instructions::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        Ok(())
+    pub fn create_phoenix_market(
+        ctx: Context<CreatePhoenixMarket>,
+        params: CreatePhoenixMarketParams
+    ) -> Result<()> {
+        instructions::create_phoenix_market(
+            ctx,
+            params
+        )
     }
 }
 
