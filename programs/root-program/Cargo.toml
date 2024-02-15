@@ -1,0 +1,23 @@
+[package]
+name = "root-program"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "root_program"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = {version = "0.26.0", features = ["init-if-needed"]}
+anchor-spl = "0.26.0"
+phoenix-v1 = { version = "0.2.3", features = ["no-entrypoint"] }
+phoenix-seat-manager = { version = "0.1.1", features = ["no-entrypoint"]}
+blake3 = "=1.3.1"
