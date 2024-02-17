@@ -1,35 +1,37 @@
 use anchor_lang::{prelude::*, solana_program::program::invoke};
 use anchor_spl::token::{Mint, Token};
-use phoenix::program::{create_change_market_status_instruction, create_initialize_market_instruction, create_name_successor_instruction, MarketSizeParams};
+use phoenix::program::{create_change_market_status_instruction, create_initialize_market_instruction, create_name_successor_instruction, get_market_size, MarketSizeParams};
 use phoenix_seat_manager::{get_seat_manager_address, instruction_builders::create_claim_market_authority_instruction};
 
-#[derive(Default, Debug, AnchorSerialize, AnchorDeserialize)]
-pub struct CreatePhoenixMarketParams {
-    market_size_params: MarketSizeParams,
+pub fn create_phoenix_market(
+    ctx: Context<CreatePhoenixMarket>,
+    num_orders_per_side: u64,
+    num_seats: u64,
     num_quote_lots_per_quote_unit: u64,
     num_base_lots_per_base_unit: u64,
     tick_size_in_quote_lots_per_base_unit: u64,
     taker_fee_bps: u16,
     raw_base_units_per_base_unit: u32
-}
-
-pub fn create_phoenix_market(
-    ctx: Context<CreatePhoenixMarket>,
-    params: CreatePhoenixMarketParams
 ) -> Result<()> {
+
+    let header_params = MarketSizeParams {
+        bids_size: num_orders_per_side,
+        asks_size: num_orders_per_side,
+        num_seats
+    };    
 
     let initialize_market_ix = create_initialize_market_instruction(
         ctx.accounts.phoenix_market.key, 
         &ctx.accounts.base_token_mint.key(), 
         &ctx.accounts.quote_token_mint.key(), 
         &ctx.accounts.creator.key, 
-        params.market_size_params,
-        params.num_quote_lots_per_quote_unit,
-        params.num_base_lots_per_base_unit,
-        params.tick_size_in_quote_lots_per_base_unit,
-        params.taker_fee_bps,
+        header_params,
+        num_quote_lots_per_quote_unit,
+        num_base_lots_per_base_unit,
+        tick_size_in_quote_lots_per_base_unit,
+        taker_fee_bps,
         &ctx.accounts.fee_collector.key(),
-        Some(params.raw_base_units_per_base_unit)
+        Some(raw_base_units_per_base_unit)
     );
 
     let _ = invoke(
@@ -96,6 +98,7 @@ pub fn create_phoenix_market(
             ctx.accounts.seat_manager.to_account_info(),
             ctx.accounts.creator.to_account_info(),
             ctx.accounts.seat_deposit_collector.to_account_info(),
+            ctx.accounts.phoenix_seat_manager_program.to_account_info(),
             ctx.accounts.system_program.to_account_info()
         ]
     );
@@ -123,6 +126,7 @@ pub struct CreatePhoenixMarket<'info> {
     /// CHECK: Necessary checks in phoenix program
     pub seat_manager: UncheckedAccount<'info>,
 
+    #[account(mut)]
     /// CHECK: Necessary checks in phoenix program
     pub seat_deposit_collector: UncheckedAccount<'info>,
 
@@ -136,6 +140,9 @@ pub struct CreatePhoenixMarket<'info> {
     #[account(mut)]
     /// CHECK: Necessary checks in phoenix program
     pub quote_vault: UncheckedAccount<'info>,
+
+    /// CHECK: Necessary checks in phoenix program
+    pub phoenix_seat_manager_program: UncheckedAccount<'info>,
 
     /// CHECK: Necessary checks in phoenix program
     pub phoenix_program: UncheckedAccount<'info>,

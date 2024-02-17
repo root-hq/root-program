@@ -37,7 +37,7 @@ export type RootProgram = {
         },
         {
           "name": "seatDepositCollector",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -53,6 +53,11 @@ export type RootProgram = {
         {
           "name": "quoteVault",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "phoenixSeatManagerProgram",
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -73,48 +78,34 @@ export type RootProgram = {
       ],
       "args": [
         {
-          "name": "params",
-          "type": {
-            "defined": "CreatePhoenixMarketParams"
-          }
+          "name": "numOrdersPerSide",
+          "type": "u64"
+        },
+        {
+          "name": "numSeats",
+          "type": "u64"
+        },
+        {
+          "name": "numQuoteLotsPerQuoteUnit",
+          "type": "u64"
+        },
+        {
+          "name": "numBaseLotsPerBaseUnit",
+          "type": "u64"
+        },
+        {
+          "name": "tickSizeInQuoteLotsPerBaseUnit",
+          "type": "u64"
+        },
+        {
+          "name": "takerFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "rawBaseUnitsPerBaseUnit",
+          "type": "u32"
         }
       ]
-    }
-  ],
-  "types": [
-    {
-      "name": "CreatePhoenixMarketParams",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "marketSizeParams",
-            "type": {
-              "defined": "MarketSizeParams"
-            }
-          },
-          {
-            "name": "numQuoteLotsPerQuoteUnit",
-            "type": "u64"
-          },
-          {
-            "name": "numBaseLotsPerBaseUnit",
-            "type": "u64"
-          },
-          {
-            "name": "tickSizeInQuoteLotsPerBaseUnit",
-            "type": "u64"
-          },
-          {
-            "name": "takerFeeBps",
-            "type": "u16"
-          },
-          {
-            "name": "rawBaseUnitsPerBaseUnit",
-            "type": "u32"
-          }
-        ]
-      }
     }
   ]
 };
@@ -158,7 +149,7 @@ export const IDL: RootProgram = {
         },
         {
           "name": "seatDepositCollector",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -174,6 +165,11 @@ export const IDL: RootProgram = {
         {
           "name": "quoteVault",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "phoenixSeatManagerProgram",
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -194,48 +190,34 @@ export const IDL: RootProgram = {
       ],
       "args": [
         {
-          "name": "params",
-          "type": {
-            "defined": "CreatePhoenixMarketParams"
-          }
+          "name": "numOrdersPerSide",
+          "type": "u64"
+        },
+        {
+          "name": "numSeats",
+          "type": "u64"
+        },
+        {
+          "name": "numQuoteLotsPerQuoteUnit",
+          "type": "u64"
+        },
+        {
+          "name": "numBaseLotsPerBaseUnit",
+          "type": "u64"
+        },
+        {
+          "name": "tickSizeInQuoteLotsPerBaseUnit",
+          "type": "u64"
+        },
+        {
+          "name": "takerFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "rawBaseUnitsPerBaseUnit",
+          "type": "u32"
         }
       ]
-    }
-  ],
-  "types": [
-    {
-      "name": "CreatePhoenixMarketParams",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "marketSizeParams",
-            "type": {
-              "defined": "MarketSizeParams"
-            }
-          },
-          {
-            "name": "numQuoteLotsPerQuoteUnit",
-            "type": "u64"
-          },
-          {
-            "name": "numBaseLotsPerBaseUnit",
-            "type": "u64"
-          },
-          {
-            "name": "tickSizeInQuoteLotsPerBaseUnit",
-            "type": "u64"
-          },
-          {
-            "name": "takerFeeBps",
-            "type": "u16"
-          },
-          {
-            "name": "rawBaseUnitsPerBaseUnit",
-            "type": "u32"
-          }
-        ]
-      }
     }
   ]
 };

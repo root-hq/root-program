@@ -12,39 +12,30 @@ export const handler = async() => {
     let creatorKeypair = anchor.web3.Keypair.fromSecretKey(
         Uint8Array.from(privateKeyArray)
       );
-    
-    console.log("creator: ", creatorKeypair.publicKey.toString());
 
     const wallet = new NodeWallet(creatorKeypair);
 
     const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
 
-    const connection = rootSdk.getConnection(RPC_ENDPOINT);
+    const connection = new anchor.web3.Connection(RPC_ENDPOINT);
 
     const provider = new anchor.AnchorProvider(connection, wallet, {});
 
-    const params = {
-        marketSizeParams: {
-            bidsSize: new anchor.BN(512),
-            asksSize: new anchor.BN(512),
-            numSeats: new anchor.BN(1024)
-        } as MarketSizeParams,
-        numQuoteLotsPerQuoteUnit: new anchor.BN(512),
-        numBaseLotsPerBaseUnit: new anchor.BN(512),
-        tickSizeInQuoteLotsPerBaseUnit: new anchor.BN(512),
-        takerFeeBps: 12,
-        rawBaseUnitsPerBaseUnit: 12,
-    } as rootSdk.CreatePhoenixMarketParams;
-
-    const marketKeypair = anchor.web3.Keypair.generate();
-    console.log("MarketKeypair: ", marketKeypair.secretKey);
-    console.log("MarketKey: ", marketKeypair.publicKey.toString());
-
     try {
+        const params = {
+            numOrdersPerSide: new anchor.BN(1024),
+            numSeats: new anchor.BN(2177),
+            numQuoteLotsPerQuoteUnit: new anchor.BN(1_000_000),
+            numBaseLotsPerBaseUnit: new anchor.BN(1_000),
+            tickSizeInQuoteLotsPerBaseUnit: new anchor.BN(1_000),
+            takerFeeBps: 1,
+            rawBaseUnitsPerBaseUnit: 1,
+        } as rootSdk.CreatePhoenixMarketParams;
+
         let accounts = {
-            phoenixMarket: marketKeypair.publicKey,
             baseTokenMint: rootSdk.WRAPPED_SOL_MAINNET,
-            quoteTokenMint: rootSdk.USDC_MAINNET    
+            quoteTokenMint: rootSdk.USDC_MAINNET,
+            feeCollector: provider.wallet.publicKey
         } as rootSdk.CreatePhoenixMarketAccounts;
     
         let blob = await rootSdk.createPhoenixMarket({
@@ -57,6 +48,7 @@ export const handler = async() => {
             provider,
             transactionInfos: blob.transactionInfos
         });
+        await res.confirm();
     
         console.log("Res: ", res.signatures);    
     }

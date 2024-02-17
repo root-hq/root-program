@@ -2,7 +2,8 @@ import { MarketSizeParams } from "@ellipsis-labs/phoenix-sdk";
 import { BN } from "@coral-xyz/anchor";
 
 export interface CreatePhoenixMarketParams {
-    marketSizeParams: MarketSizeParams;
+    numOrdersPerSide: BN;
+    numSeats: BN;
     numQuoteLotsPerQuoteUnit: BN;
     numBaseLotsPerBaseUnit: BN;
     tickSizeInQuoteLotsPerBaseUnit: BN;
