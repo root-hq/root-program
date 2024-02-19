@@ -16,13 +16,9 @@ export const getRootProgram = (provider: anchor.AnchorProvider) => {
 export const getRootProgramWithoutProvider = (network: string) => {
   const conn = new anchor.web3.Connection(network);
 
-  const program = new anchor.Program(
-    idl as anchor.Idl,
-    ROOT_PROGRAM_ID,
-    {
-      connection: conn,
-    }
-  );
+  const program = new anchor.Program(idl as anchor.Idl, ROOT_PROGRAM_ID, {
+    connection: conn,
+  });
 
   return program;
 };

@@ -11,14 +11,14 @@ export const requestComputeUnits = (
   unitsRequested: number,
   additionalFee: number
 ): TransactionInstruction[] => {
-  const computeLimitIx =
-    anchor.web3.ComputeBudgetProgram.setComputeUnitLimit({
-      units: unitsRequested,
-    });
+  const computeLimitIx = anchor.web3.ComputeBudgetProgram.setComputeUnitLimit({
+    units: unitsRequested,
+  });
 
-  const computeUnitPriceIx = anchor.web3.ComputeBudgetProgram.setComputeUnitPrice({
-    microLamports: additionalFee,
-  })
+  const computeUnitPriceIx =
+    anchor.web3.ComputeBudgetProgram.setComputeUnitPrice({
+      microLamports: additionalFee,
+    });
 
   return [computeLimitIx, computeUnitPriceIx];
 };
@@ -103,7 +103,7 @@ export const executeTransactions = async ({
         async (tx) =>
           await provider.connection.sendRawTransaction(tx.serialize(), {
             preflightCommitment: "processed",
-            maxRetries: 5
+            maxRetries: 5,
           })
       )
     );
