@@ -1,6 +1,6 @@
 use anchor_lang::{prelude::*, solana_program::program::invoke};
 use anchor_spl::token::{Mint, Token};
-use phoenix::program::{create_change_market_status_instruction, create_initialize_market_instruction, create_name_successor_instruction, get_market_size, MarketSizeParams};
+use phoenix::program::{create_change_market_status_instruction, create_initialize_market_instruction, create_name_successor_instruction, MarketSizeParams};
 use phoenix_seat_manager::{get_seat_manager_address, instruction_builders::create_claim_market_authority_instruction};
 
 pub fn create_phoenix_market(

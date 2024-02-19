@@ -26,14 +26,14 @@ export const handler = async() => {
             numOrdersPerSide: new anchor.BN(1024),
             numSeats: new anchor.BN(2177),
             numQuoteLotsPerQuoteUnit: new anchor.BN(1_000_000),
-            numBaseLotsPerBaseUnit: new anchor.BN(1_000),
-            tickSizeInQuoteLotsPerBaseUnit: new anchor.BN(1_000),
+            numBaseLotsPerBaseUnit: new anchor.BN(100),
+            tickSizeInQuoteLotsPerBaseUnit: new anchor.BN(10_000),
             takerFeeBps: 1,
             rawBaseUnitsPerBaseUnit: 1,
         } as rootSdk.CreatePhoenixMarketParams;
 
         let accounts = {
-            baseTokenMint: rootSdk.WRAPPED_SOL_MAINNET,
+            baseTokenMint: new anchor.web3.PublicKey("StepAscQoEioFxxWGnh2sLBDFp9d8rvKz2Yp39iDpyT"),
             quoteTokenMint: rootSdk.USDC_MAINNET,
             feeCollector: provider.wallet.publicKey
         } as rootSdk.CreatePhoenixMarketAccounts;
